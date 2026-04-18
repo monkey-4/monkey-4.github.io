@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정제현 - Contact</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #090a0f, #1f1c2c, #928DAB); 
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05); /* Glassmorphism */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-radius: 40px; 
+            padding: 4rem 5rem;
+            width: 90%;
+            max-width: 600px;
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .envelope-icon {
+            font-size: 6rem;
+            margin-bottom: -10px;
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            animation: floatIcon 4s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 10px 0;
+            letter-spacing: -2px;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            word-break: keep-all;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 700;
+        }
+
+        .info-value {
+            color: #FFB75E;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 10px;
+        }
+
+        input, textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 20px;
+            color: white;
+            font-family: inherit;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: #FFB75E;
+            box-shadow: 0 0 15px rgba(255, 183, 94, 0.3);
+        }
+
+        textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            color: #1a0b2e;
+            font-size: 1.3rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(237, 143, 3, 0.3);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.02) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(237, 143, 3, 0.5);
+        }
+
+        .send-btn:active {
+            transform: scale(0.98);
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            color: white;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 600px) {
+            .contact-card {
+                padding: 3rem 2rem;
+                width: 95%;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+            .envelope-icon {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contact-card">
+        <div class="envelope-icon">✉️</div>
+        <h1>Contact</h1>
+        <p>환영합니다! 저의 기본 연락처 정보입니다. 언제든지 편하게 연락해주세요.</p>
+        
+        <div class="contact-info">
+            <div class="info-item">
+                <span class="info-label">📞 전화번호</span>
+                <span class="info-value">010-4312-6094</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">🎂 나이</span>
+                <span class="info-value">14세</span>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <div class="input-group">
+                <input type="text" placeholder="보내시는 분 이름" required>
+            </div>
+            <div class="input-group">
+                <textarea placeholder="메시지 내용을 적어주세요..." required></textarea>
+            </div>
+            
+            <button class="send-btn" onclick="alert('메시지가 성공적으로 전송되었습니다! (데모)')">🚀 편지 보내기</button>
+        </div>
+
+        <a href="index.html" class="back-btn">⬅ 메인 화면으로 돌아가기</a>
+    </div>
+
+</body>
+</html>

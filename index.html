@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Gravity - Menu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ----- Intro Cover Screen ----- */
+        #intro-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+            transform-origin: top;
+            pointer-events: none;
+        }
+
+        .intro-text {
+            margin-top: 35vh;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #5c3000;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.4);
+            pointer-events: none;
+            z-index: 2;
+            text-align: center;
+            letter-spacing: -2px;
+        }
+
+        .intro-text small {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+            opacity: 0.8;
+            letter-spacing: 0;
+        }
+
+        /* ----- Rope Mechanics ----- */
+        #rope-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: grab;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 30px; /* touch area */
+            pointer-events: all;
+        }
+        #rope-container:active { cursor: grabbing; }
+
+        .rope {
+            width: 16px;
+            height: 15vh;
+            background: repeating-linear-gradient(45deg, #1b5e20, #1b5e20 8px, #2e7d32 8px, #2e7d32 16px);
+            box-shadow: inset -3px 0 5px rgba(0,0,0,0.5), 2px 2px 4px rgba(0,0,0,0.3);
+            pointer-events: none;
+            border-radius: 0 0 5px 5px;
+            position: relative;
+        }
+        /* Amazon Vine Leaves */
+        .rope::before {
+            content: '🍃';
+            position: absolute;
+            bottom: 30px;
+            left: -20px;
+            font-size: 1.5rem;
+            transform: rotate(-20deg);
+        }
+        .rope::after {
+            content: '🌿';
+            position: absolute;
+            top: 5vh;
+            right: -15px;
+            font-size: 1.5rem;
+            transform: rotate(30deg);
+        }
+
+        .handle {
+            width: 60px;
+            height: 60px;
+            border: 8px solid #2e7d32;
+            border-radius: 50%;
+            margin-top: -12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+            background: rgba(46, 125, 50, 0.2);
+        }
+
+        .pull-hint {
+            margin-top: 15px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #d82b00;
+            pointer-events: none;
+            background: white;
+            padding: 4px 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* ----- Main Content Screen ----- */
+        #main-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 1s ease-in, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        #main-content.main-visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        #rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Menu Card */
+        .menu-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 50;
+            padding: 3rem 5rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2rem;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 250px;
+            backdrop-filter: blur(5px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn:hover {
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            color: #1a0b2e;
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(237, 143, 3, 0.4);
+            border-color: transparent;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.98) translateY(2px);
+        }
+
+        /* ----- Animations ----- */
+        .burst-item {
+            position: absolute;
+            top: 5vh;
+            left: 50vw;
+            z-index: 5;
+            animation: burstAnim var(--duration) cubic-bezier(.15,.75,.35,1) forwards;
+            pointer-events: none;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+        }
+
+        @keyframes burstAnim {
+            0% { transform: translate(-50%, 0) scale(0) rotate(0deg); opacity: 1; }
+            35% { transform: translate(calc(-50% + var(--dx)), var(--dy)) scale(1.5) rotate(var(--rot)); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--dx) + var(--dx2)), 110vh) scale(0.8) rotate(calc(var(--rot) * 2)); opacity: 0; }
+        }
+
+        .monkey {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            animation: fall var(--duration) linear var(--delay) infinite;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
+        }
+
+        @keyframes fall {
+            0% { top: -15vh; transform: translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { top: 115vh; transform: translateX(var(--sway-x)) rotate(var(--end-rotation)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Cover Screen -->
+    <div id="intro-cover">
+        <!-- Touchable and grabbable rope -->
+        <div id="rope-container">
+            <div class="rope"></div>
+            <div class="handle"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Application -->
+    <div id="main-content">
+        <div id="rain-container"></div>
+        
+        <div class="menu-container">
+            <h1>정제현</h1>
+            <div class="btn-group" style="margin-top: 30px;">
+                <button class="menu-btn" style="font-size: 2rem; width: 150px;" onclick="window.location.href='profile.html'">👤</button>
+                <button class="menu-btn" style="font-size: 2rem; width: 150px;" onclick="window.location.href='portfolio.html'">💼</button>
+                <button class="menu-btn" style="font-size: 2rem; width: 150px;" onclick="window.location.href='contact.html'">✉️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Drag and Pull Mechanics ---
+        const ropeContainer = document.getElementById('rope-container');
+        const introCover = document.getElementById('intro-cover');
+        const mainContent = document.getElementById('main-content');
+        
+        let isDragging = false;
+        let isOpened = false;
+        let startY = 0;
+
+        // Support for both mouse and touch interfaces
+        ropeContainer.addEventListener('mousedown', startDrag);
+        ropeContainer.addEventListener('touchstart', (e) => startDrag(e.touches[0]), {passive: false});
+        
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('touchmove', (e) => drag(e.touches[0], e), {passive: false});
+        
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
+        
+        // Also fire on pure clicks just in case user clicks without dragging
+        ropeContainer.addEventListener('click', () => {
+            if(!isOpened && !isDragging) {
+                simulatePull();
+            }
+        });
+
+        function startDrag(e) {
+            if(isOpened) return;
+            isDragging = true;
+            startY = e.clientY;
+            document.querySelector('.rope').style.transition = 'none';
+        }
+
+        function drag(e, eventObj) {
+            if(!isDragging || isOpened) return;
+            // Prevent default behavior to avoid scrolling down on mobiles when dragging
+            if(eventObj && eventObj.cancelable) eventObj.preventDefault(); 
+            
+            const dy = e.clientY - startY;
+            if(dy > 0) {
+                // Allow stretch closely to the bottom of the screen
+                const maxStretch = window.innerHeight * 0.85; 
+                const stretch = Math.min(dy, maxStretch); 
+                const ropeElement = document.querySelector('.rope');
+                ropeElement.style.height = `calc(15vh + ${stretch}px)`;
+                
+                // Screen reveal only triggers when pulled past 65% of screen height
+                if (stretch >= window.innerHeight * 0.65) {
+                    triggerReveal();
+                }
+            }
+        }
+
+        function endDrag() {
+            if(!isDragging || isOpened) return;
+            isDragging = false;
+            // Spring animation snapping back up length
+            const ropeElement = document.querySelector('.rope');
+            ropeElement.style.transition = 'height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            ropeElement.style.height = `15vh`;
+        }
+
+        function simulatePull() {
+            // Emulate pulling physically on click stretching down
+            const ropeElement = document.querySelector('.rope');
+            ropeElement.style.transition = 'height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            ropeElement.style.height = `calc(15vh + ${window.innerHeight * 0.7}px)`;
+            setTimeout(triggerReveal, 350);
+        }
+
+        function triggerReveal() {
+            if(isOpened) return;
+            isOpened = true;
+            isDragging = false;
+            
+            // Cover drops down like a heavy curtain
+            introCover.style.transition = 'transform 1s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
+            introCover.style.transform = 'translateY(110vh)';
+
+            // Reveal and scale in main content smoothly
+            mainContent.classList.add('main-visible');
+
+            // Burst of bananas and monkeys!
+            triggerBurst();
+
+            // After Burst ends, begin continuous monkey raining
+            setTimeout(startContinuousRain, 1500);
+
+            // Hide cover from DOM to release memory and remove interactions
+            setTimeout(() => {
+                introCover.style.display = 'none';
+            }, 1000);
+        }
+
+        // --- Explosion (Burst/Fountain) Effect ---
+        function triggerBurst() {
+            const container = document.getElementById('rain-container');
+            // Mostly bananas to fit the unwrapping a banana cover theme
+            const burstSymbols = ['🍌', '🍌', '🍌', '🍌', '🍌', '🐒', '🐵', '🙊', '🎉']; 
+            const burstAmount = 150;
+
+            for(let i = 0; i < burstAmount; i++) {
+                const span = document.createElement('div');
+                span.innerText = burstSymbols[Math.floor(Math.random() * burstSymbols.length)];
+                span.className = 'burst-item';
+                
+                // Spread math for fountain particles
+                const dx = (Math.random() - 0.5) * 120; // -60vw to +60vw
+                const dy = (Math.random() * -50); // Shoot upwards mostly (-50vh) and fall
+                const dx2 = (Math.random() - 0.5) * 50; // Extra drift sideways when falling
+                
+                const rot = (Math.random() - 0.5) * 1080; // multiple spins
+                const duration = Math.random() * 2 + 2.5; // 2.5s to 4.5s
+                const size = Math.random() * 2.5 + 1.2; // robust sizes
+                
+                span.style.setProperty('--dx', `${dx}vw`);
+                span.style.setProperty('--dy', `${dy}vh`); // negative means it blasts UP first
+                span.style.setProperty('--dx2', `${dx2}vw`);
+                span.style.setProperty('--rot', `${rot}deg`);
+                span.style.setProperty('--duration', `${duration}s`);
+                span.style.fontSize = `${size}rem`;
+
+                container.appendChild(span);
+
+                // remove particle once animation is clearly done
+                setTimeout(() => {
+                    if (span && span.parentNode) span.remove();
+                }, duration * 1000);
+            }
+        }
+
+        // --- Continuous Rain Engine ---
+        function startContinuousRain() {
+            const container = document.getElementById('rain-container');
+            const rainSymbols = ['🐒', '🦍', '🦧', '🐵', '🙊', '🙉', '🙈', '🍌', '🌴'];
+            const rainCount = 60; // Total concurrent falling items
+
+            for (let i = 0; i < rainCount; i++) {
+                createFallingItem(container, rainSymbols);
+            }
+        }
+
+        function createFallingItem(container, symbols) {
+            const item = document.createElement('div');
+            item.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            item.classList.add('monkey');
+
+            const startPosX = Math.random() * 100;
+            const size = Math.random() * 2.5 + 1.5; 
+            const duration = Math.random() * 12 + 6; 
+            // Randomly offset animations so they don't look grouped
+            const delay = Math.random() * 20; 
+            
+            const rotateDir = Math.random() > 0.5 ? 1 : -1;
+            const endRot = 360 * (Math.random() * 3 + 1) * rotateDir;
+            const sway = (Math.random() * 40 - 20) + 'vw';
+
+            item.style.left = `${startPosX}vw`;
+            item.style.fontSize = `${size}rem`;
+            
+            item.style.setProperty('--duration', `${duration}s`);
+            item.style.setProperty('--delay', `-${delay}s`);
+            item.style.setProperty('--end-rotation', `${endRot}deg`);
+            item.style.setProperty('--sway-x', sway);
+            
+            // Calculate pseudo-3D layering (Z-index + blur + shadow mapping)
+            if (Math.random() > 0.8) {
+                item.style.zIndex = 40; 
+                item.style.filter = 'drop-shadow(0 15px 35px rgba(0,0,0,0.8)) blur(1px)';
+                item.style.fontSize = `${size + 1.5}rem`;
+            } else if (Math.random() < 0.3) {
+                item.style.zIndex = Math.floor(Math.random() * 5);
+                item.style.filter = 'drop-shadow(0 2px 5px rgba(0,0,0,0.2)) blur(3px)';
+                item.style.fontSize = `${size - 0.5}rem`;
+            }
+
+            container.appendChild(item);
+        }
+    </script>
+</body>
+</html>

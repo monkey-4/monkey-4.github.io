@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정제현 - Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #090a0f, #1f1c2c, #928DAB); 
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            margin-top: 80px;
+            text-align: center;
+            animation: fadeInDown 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 10px 0;
+            letter-spacing: -2px;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            width: 90%;
+            max-width: 1200px;
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glassmorphism Item Card */
+        .portfolio-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            border-color: transparent;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 220px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.4s ease;
+        }
+
+        .portfolio-item:hover .item-image {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .item-content {
+            padding: 30px;
+            text-align: left;
+        }
+
+        .item-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 10px 0;
+        }
+
+        .item-desc {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 60px;
+            animation: fadeIn 1s ease 1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            color: #1a0b2e;
+            transform: scale(1.05) translateY(-3px);
+            border-color: transparent;
+            box-shadow: 0 15px 30px rgba(237, 143, 3, 0.4);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Projects</h1>
+        <p class="subtitle">작업물들을 소개하는 공간입니다.</p>
+    </header>
+    
+    <div class="portfolio-grid">
+        <!-- Project 1 -->
+        <div class="portfolio-item">
+            <div class="item-image">🏰</div>
+            <div class="item-content">
+                <h3 class="item-title">타워 디펜스 게임</h3>
+                <p class="item-desc">화려한 이펙트와 탄탄한 업그레이드 시스템을 갖춘 HTML5 기반 타워 디펜스 게임 프로젝트입니다.</p>
+            </div>
+        </div>
+        
+        <!-- Project 2 -->
+        <div class="portfolio-item">
+            <div class="item-image">💻</div>
+            <div class="item-content">
+                <h3 class="item-title">Web Application</h3>
+                <p class="item-desc">글래스모피즘(Glassmorphism)과 애니메이션을 활용한 쾌적한 웹 앱 경험 사례입니다.</p>
+            </div>
+        </div>
+        
+        <!-- Project 3 -->
+        <div class="portfolio-item">
+            <div class="item-image">📱</div>
+            <div class="item-content">
+                <h3 class="item-title">Mobile UI</h3>
+                <p class="item-desc">모바일 환경에서도 끊김 없는 사용성을 제공하도록 설계한 반응형 프로젝트입니다.</p>
+            </div>
+        </div>
+        
+        <!-- Project 4 (Optional) -->
+        <div class="portfolio-item">
+            <div class="item-image">🚀</div>
+            <div class="item-content">
+                <h3 class="item-title">Performance Space</h3>
+                <p class="item-desc">최적화된 렌더링 성능과 초당 60프레임 무중단 인터랙티브 기법을 연구한 결과입니다.</p>
+            </div>
+        </div>
+
+        <div class="portfolio-item">
+            <div class="item-image">✨</div>
+            <div class="item-content">
+                <h3 class="item-title">Visual Effects</h3>
+                <p class="item-desc">입자 효과(Particle CSS)와 동적 그라디언트를 사용한 시각적 이펙트 모음입니다.</p>
+            </div>
+        </div>
+        
+        <div class="portfolio-item">
+            <div class="item-image">🐒</div>
+            <div class="item-content">
+                <h3 class="item-title">Monkey Gravity</h3>
+                <p class="item-desc">하늘에서 원숭이와 바나나가 쏟아지는 재치 있고 창의적인 물리적 연출 프로젝트입니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-btn">⬅ 메인으로 돌아가기</a>
+
+</body>
+</html>
