@@ -306,6 +306,20 @@
         let isOpened = false;
         let startY = 0;
 
+        // Check if intro should be skipped
+        if (sessionStorage.getItem('skipMonkeyIntro') === 'true' || window.location.search.includes('skipIntro=true')) {
+            isOpened = true;
+            introCover.style.display = 'none';
+            mainContent.style.transition = 'none';
+            mainContent.classList.add('main-visible');
+            setTimeout(startContinuousRain, 10);
+            
+            setTimeout(() => {
+                // Restore original transition
+                mainContent.style.transition = 'opacity 1s ease-in, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }, 100);
+        }
+
         // Support for both mouse and touch interfaces
         ropeContainer.addEventListener('mousedown', startDrag);
         ropeContainer.addEventListener('touchstart', (e) => startDrag(e.touches[0]), {passive: false});
@@ -371,6 +385,8 @@
             if(isOpened) return;
             isOpened = true;
             isDragging = false;
+            
+            sessionStorage.setItem('skipMonkeyIntro', 'true');
             
             // Cover drops down like a heavy curtain
             introCover.style.transition = 'transform 1s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
